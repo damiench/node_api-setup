@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as path from 'path';
-
+import './db/connection';
 const app = express();
 
 const port = process.env.PORT || 3000;
