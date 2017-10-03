@@ -11,7 +11,7 @@ userRouter
         selectAllUsers(limit, offset)
             .then((result) => {
 
-                res.json({ result: result.rows[0] });
+                res.json({ result: result });
             })
             .catch((err) => {
                res.status(500).end(err);

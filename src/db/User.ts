@@ -95,11 +95,13 @@ export const getUserById = (id: number) => {
 export const selectAllUsers = (limit?: number, page?: number) => {
     return pool.query('SELECT * FROM users LIMIT $1 OFFSET $2', [limit || 10, (page || 0) * 10])
         .then((res) => {
-            console.pg_log(res);
-            return res;
+            console.pg_log(res.rows);
+            return { isError: false, data: res.rows };
         })
         .catch((err) => {
             console.pg_error(err);
+
+            return { isError: true, message: err };
         });
 };
 
