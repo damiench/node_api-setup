@@ -93,7 +93,7 @@ export const getUserById = (id: number) => {
 
 // limit = 10, if you want next n users, pass page param and limit param for change n
 export const selectAllUsers = (limit?: number, page?: number) => {
-    return pool.query('SELECT * FROM users LIMIT $1 OFFSET $1', [limit || 10, (page || 0) * 10])
+    return pool.query('SELECT * FROM users LIMIT $1 OFFSET $2', [limit || 10, (page || 0) * 10])
         .then((res) => {
             console.pg_log(res);
             return res;
