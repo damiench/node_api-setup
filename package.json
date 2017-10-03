@@ -4,9 +4,12 @@
   "description": "Basic api with node, ts, postgres",
   "main": "index.js",
   "scripts": {
-    "compile": "tsc",
-    "prestart": "npm run compile",
-    "start": "node ./build/index.js"
+    "tsc": "tsc",
+    "prestart": "npm run tsc",
+    "start": "node ./build/index.js",
+    "tsc:watch": "tsc --watch",
+    "server:watch": "nodemon ./build/index.js",
+    "start:dev": "npm-run-all --parallel tsc:watch server:watch"
   },
   "repository": {
     "type": "git",
@@ -19,13 +22,21 @@
   },
   "homepage": "https://github.com/damiench/node_api-setup#readme",
   "devDependencies": {
+    "@types/bcrypt-nodejs": "0.0.30",
+    "@types/body-parser": "^1.16.5",
     "@types/express": "^4.0.37",
+    "@types/lodash": "^4.14.76",
     "@types/pg": "^7.1.2",
+    "nodemon": "^1.12.1",
+    "npm-run-all": "^4.1.1",
     "typescript": "^2.5.2"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.2",
     "dotenv": "^4.0.0",
     "express": "^4.15.5",
+    "lodash": "^4.17.4",
     "pg": "^7.3.0"
   }
 }

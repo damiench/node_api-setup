@@ -2,16 +2,14 @@ version: "2"
 
 services:
     postgres-db:
-        labels:
-            io.rancher.scheduler.affinity:host_label: type=stage
         restart: always
         image: postgres:9.5
         ports:
-            - "5444:5432"
+            - "5489:5432"
         environment:
             - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=testdbpass
-            - POSTGRES_DB=test
-            - PGDATA=/var/lib/postgresql/pgdata:/var/lib/postgresql/data
+            - POSTGRES_PASSWORD=pass123321
+            - POSTGRES_DB=shop
+            - PGDATA=/var/lib/postgresql/pgdata_api:/var/lib/postgresql/data
         volumes:
-            - /var/lib/postgresql/pgdata:/var/lib/postgresql/
+            - /var/lib/postgresql/pgdata_api:/var/lib/postgresql/
