@@ -1,6 +1,9 @@
 import * as express from 'express';
 const userRouter = express.Router();
-import { UserData, createUser, selectAllUsers } from '../db/User';
+import * as multer from 'multer';
+
+import { UserData, createUser, selectAllUsers, getUserById } from '../db/User';
+const upload = multer({ dest: '../../uploads' });
 
 // TODO: make this route protected and add few more opened routes
 // TODO: add jwt middleware for protecting routes
@@ -17,6 +20,20 @@ userRouter
                res.status(500).end(err);
             });
     })
+    .get('/:id', (req, res) => {
+        getUserById(req.params.id)
+            .then((user) => {
+                if (!user)
+                    res.status(404).json({ message: 'user not found', isError: true });
+
+                delete user.password;
+                res.json(user);
+            })
+            .catch((err) => {
+                res.status(500).json(err);
+            });
+    })
+    // creates user
     .post('/', (req: express.Request, res: express.Response) => {
         const {
             firstName,
@@ -48,6 +65,6 @@ userRouter
     })
     .get('/about', (req: express.Request, res: express.Response) => {
 
-    });
+    })
 
 export default userRouter;

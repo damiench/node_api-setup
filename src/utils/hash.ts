@@ -15,7 +15,7 @@ export const compareWithHash = (hash: string, string: string): Promise<boolean |
     return new Promise((resolve, reject) => {
        bcrypt.compare(string, hash, (err, res) => {
            if (err)
-               reject(err);
+               resolve(false);
 
            resolve(res);
        });

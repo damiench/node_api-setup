@@ -1,5 +1,6 @@
 import pool from './connection';
 import { hashString } from '../utils/hash';
+import * as _ from 'lodash';
 
 export interface UserModel {
     id: number,
@@ -19,8 +20,6 @@ export interface UserData {
     email: string,
     password: string
 }
-
-
 
 const createUsersTable = () => {
     return pool.query(`CREATE TABLE IF NOT EXISTS users (
@@ -95,7 +94,6 @@ export const getUserById = (id: number) => {
 export const selectAllUsers = (limit?: number, page?: number) => {
     return pool.query('SELECT * FROM users LIMIT $1 OFFSET $2', [limit || 10, (page || 0) * 10])
         .then((res) => {
-            console.pg_log(res.rows);
             return { isError: false, data: res.rows };
         })
         .catch((err) => {
@@ -110,11 +108,12 @@ export const selectAllUsers = (limit?: number, page?: number) => {
 export const selectUserByEmail = (email: string) => {
     return pool.query('SELECT * FROM users WHERE email=$1', [email])
         .then((res) => {
-            return res;
+
+            return _.get(res, ['rows', 0]);
         })
         .catch((err) => {
             console.log(err);
-            throw new Error(err);
+            return null;
         });
 };
 
@@ -132,7 +131,7 @@ export const selectUserByEmail = (email: string) => {
 function isUserEmailFree(mail: string): Promise<boolean> {
     return selectUserByEmail(mail)
         .then((res) => {
-            return res.rows.length < 1;
+            return !res;
         })
         .catch((err) => {
            console.log(err);
