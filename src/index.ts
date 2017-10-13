@@ -11,10 +11,16 @@ import './db/connection';
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, '/../build/client')));
 app.use(cookieParser());
 app.use(session({
-    secret: process.env.SECRET
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true
 }));
+
+
+// initialize passport middlewares before routes added
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -25,14 +31,16 @@ app.use(bodyParser.urlencoded({
 }));
 
 // add routers to application
-import userRouter from './routes/user';
+import * as requireTree from 'require-tree';
+let routes = requireTree('./routes');
 
-app.use('/user', userRouter);
+app.use('/user', routes.user.default);
 
-//noinspection TypeScriptValidateTypes
-app.get('/', (req, res) => {
-	res.end('Hi there');
-});
+app.use('/', routes.view.default);
+
+app.use('/authenticate', routes.authentication.default)
+
+
 
 //noinspection TypeScriptUnresolvedVariable
 const port = process.env.PORT || 3000;

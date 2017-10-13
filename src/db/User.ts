@@ -14,8 +14,8 @@ export interface UserModel {
 }
 
 export interface UserData {
-    first_name: string,
-    last_name?: string,
+    firstName: string,
+    lastName?: string,
     bio?: string,
     email: string,
     password: string
@@ -36,7 +36,13 @@ const createUsersTable = () => {
 };
 
 export const createUser = (data: UserData) => {
-    let { first_name, last_name, bio, email, password } = data;
+    let {
+        firstName: first_name,
+        lastName: last_name,
+        bio,
+        email,
+        password
+    } = data;
 
     return isUserEmailFree(email)
         .then((isFree: boolean) => {
@@ -108,7 +114,6 @@ export const selectAllUsers = (limit?: number, page?: number) => {
 export const selectUserByEmail = (email: string) => {
     return pool.query('SELECT * FROM users WHERE email=$1', [email])
         .then((res) => {
-
             return _.get(res, ['rows', 0]);
         })
         .catch((err) => {

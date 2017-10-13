@@ -7,15 +7,16 @@ import { compareWithHash } from './utils/hash';
 passport.use(new Strategy({
 	usernameField: 'email',
 	passwordField: 'password'
-}, (username, password, done) => {
+}, function(username, password, done) {
 
 	var user;
 
 	return selectUserByEmail(username)
-		.then((_user: UserModel): any => {
+		.then((_user): any => {
+			user = _user;
+
 			if (!user)
 				return done(null, false, { message: 'incorrect email' });
-			user = _user;
 
 			return compareWithHash(user.passsword, password);
 		})
@@ -39,17 +40,20 @@ passport.deserializeUser((id: number, done) => {
 });
 
 export const login = function(req, res, next) {
-	passport.authenticate('local', (err, user, info) => {
-		return err
-			? next(err)
-			: user
-				? req.logIn(user, (err) => {
-					return err
-						? next(err)
-						: res.redirect('/pricate');
-				})
-				: res.redirect('/');
-	})(req, res, next);
+
+	passport.authenticate('local',
+		function(err, user, info) {
+			return err
+			   ? next(info)
+			   : user
+				 ? req.logIn(user, function(err) {
+					 return err
+					   ? next(err)
+					   : res.redirect('/user:' + user.id);
+				   })
+				 : res.redirect('/');
+		}
+	)(req, res, next);
 };
 
 export const logout = (req, res) => {
@@ -60,14 +64,24 @@ export const logout = (req, res) => {
 export const register = (req, res, next) => {
 	createUser(req.body)
 		.then((user) => {
-			return user.isError
-				? next(user.message)
-				: req.logIn(req.body, (err) => {
+			return selectUserByEmail(req.body.email);
+		})
+		.then((user) => {
+			req.logIn(user, (err) => {
 					return err
 						? next(err)
 						: res.redirect('/private');
 				});
+		})
+		.catch(err => {
+			next(err);
 		});
+};
+
+export const mustAuthenticatedMiddleware = (req, res, next) => {
+	req.isAuthenticated()
+		? next()
+		: res.redirect('/auth');
 };
 
 export default passport;

@@ -44,8 +44,8 @@ userRouter
         } = req.body;
 
         const data: UserData = {
-            first_name: firstName,
-            last_name: lastName,
+            firstName,
+            lastName,
             bio,
             password,
             email

@@ -9,6 +9,7 @@
 		"target": "es6",
 		"module": "commonjs",
 		"outDir": "build",
-		"sourceMap": false
+		"sourceMap": true,
+		"jsx": "react"
 	}
 }
