@@ -26,7 +26,6 @@ userRouter
                 if (!user)
                     res.status(404).json({ message: 'user not found', isError: true });
 
-                delete user.password;
                 res.json(user);
             })
             .catch((err) => {

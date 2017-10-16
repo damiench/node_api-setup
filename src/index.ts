@@ -30,15 +30,28 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    next();
+});
+
+
 // add routers to application
-import * as requireTree from 'require-tree';
-let routes = requireTree('./routes');
 
-app.use('/user', routes.user.default);
+import authRoutes from './routes/authentication';
+app.use('/authenticate', authRoutes);
 
-app.use('/', routes.view.default);
+import userRoutes from './routes/user';
+app.use('/user', userRoutes);
 
-app.use('/authenticate', routes.authentication.default)
+import viewRoutes from './routes/view';
+app.use('/', viewRoutes);
 
 
 

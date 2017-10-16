@@ -12,10 +12,12 @@ export const hashString = (string: string): Promise<string | Error> => {
 };
 
 export const compareWithHash = (hash: string, string: string): Promise<boolean | Error> => {
+    console.log(hash, string)
     return new Promise((resolve, reject) => {
        bcrypt.compare(string, hash, (err, res) => {
+           console.log(err);
            if (err)
-               resolve(false);
+               reject({ message: 'wrong password' });
 
            resolve(res);
        });

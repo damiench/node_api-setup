@@ -8,7 +8,7 @@ passport.use(new Strategy({
 	usernameField: 'email',
 	passwordField: 'password'
 }, function(username, password, done) {
-
+	console.log(arguments);
 	var user;
 
 	return selectUserByEmail(username)
@@ -17,14 +17,14 @@ passport.use(new Strategy({
 
 			if (!user)
 				return done(null, false, { message: 'incorrect email' });
-
-			return compareWithHash(user.passsword, password);
+			console.log(user)
+			return compareWithHash(user.password, password);
 		})
 		.then((isSimilar) => {
-
+			console.log(isSimilar);
 			return isSimilar
 				? done(null, user)
-				: done(null, false, { message: 'incorrect password' });
+				: done(true, false, { message: 'incorrect password' });
 		})
 		.catch(err => done(err));
 }));
@@ -43,13 +43,15 @@ export const login = function(req, res, next) {
 
 	passport.authenticate('local',
 		function(err, user, info) {
+			console.log(err, user, info);
+
 			return err
 			   ? next(info)
 			   : user
 				 ? req.logIn(user, function(err) {
 					 return err
 					   ? next(err)
-					   : res.redirect('/user:' + user.id);
+					   : res.redirect('/');
 				   })
 				 : res.redirect('/');
 		}
@@ -79,6 +81,7 @@ export const register = (req, res, next) => {
 };
 
 export const mustAuthenticatedMiddleware = (req, res, next) => {
+	console.log('path: ', req.path);
 	req.isAuthenticated()
 		? next()
 		: res.redirect('/auth');
