@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",
-    "prestart": "npm run remove-build && npm run tsc && npm run build-client",
+    "prestart": "cross-env NODE_ENV=production && npm run remove-build && npm run tsc && npm run build-client",
     "start": " node ./build/index.js",
     "tsc:watch": "tsc --watch",
     "server:watch": "nodemon ./build/index.js",
-    "start:dev": "npm run remove-build && npm-run-all --parallel tsc:watch server:watch client:watch",
+    "start:dev": "cross-env NODE_ENV=development && npm run remove-build && npm-run-all --parallel tsc:watch server:watch client:watch",
     "build-client": "webpack",
     "remove-build": "rimraf ./build",
     "client:watch": "webpack-dev-server"
@@ -49,6 +49,7 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
+    "cross-env": "^5.1.0",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "express-session": "^1.15.6",

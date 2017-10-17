@@ -7,8 +7,9 @@ authRoutes
 	.post('/register', register)
 	.get('/logout', logout)
 	.get('/getUser', (req, res) => {
-		
-		res.json(req.user);
+		let userToSend = req.user;
+		delete userToSend.password;
+		res.json(userToSend);
 	});
 
 export default authRoutes;

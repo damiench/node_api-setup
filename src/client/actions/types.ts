@@ -2,7 +2,9 @@ export const ACTION_TYPES = {
 	AUTH: {
 		LOGIN: 'LOGIN',
 		LOGOUT: 'LOGOUT',
-		REGISTER: 'REGISTER'
+		REGISTER: 'REGISTER',
+		SUCCESS: 'SUCCESS',
+		FAILED: 'FAILED'
 	},
 };
 

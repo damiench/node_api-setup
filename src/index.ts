@@ -3,6 +3,9 @@ import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as path from 'path';
 import * as session from 'express-session';
+// first initialize config from .env file if no file present make one. P.S. Look README.md
+require('dotenv').config();
+
 import passport from './passport';
 // add pretty console log
 import './utils/console';

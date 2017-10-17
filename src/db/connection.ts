@@ -1,5 +1,4 @@
 import * as pg from 'pg';
-require('dotenv').config();
 
 const {
     PGUSER,

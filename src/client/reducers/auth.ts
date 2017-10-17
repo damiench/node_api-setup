@@ -7,16 +7,15 @@ const defaultState = {
 
 export default (state = defaultState, action: IAction) => {
 	switch (action.type) {
-		case ACTION_TYPES.AUTH.LOGIN:
+		case ACTION_TYPES.AUTH.SUCCESS:
 			return {
 				isAuthenticated: true,
 				auth: action.value
 			};
+		case ACTION_TYPES.AUTH.FAILED:
+			return defaultState;
 		case ACTION_TYPES.AUTH.LOGOUT:
-			return {
-				isAuthenticated: false,
-				auth: null
-			};
+			return defaultState;
 		default:
 			return state;
 	}

@@ -7,8 +7,12 @@ viewRoutes
 	.all('/private', mustAuthenticatedMiddleware)
 	.all('/private/*', mustAuthenticatedMiddleware)
 	.get('/*', (req, res) => {
-		
-		res.sendFile(path.join(__dirname + '/../client/index.html'));
+		let isProd = process.env.NODE_ENV === 'production';
+		let fileUrl = isProd
+			? path.join(__dirname + '/../client/index.html')
+			: path.join(__dirname + '/../../src/client/dev.html');
+
+		res.sendFile(fileUrl);
 	});
 
 export default viewRoutes;

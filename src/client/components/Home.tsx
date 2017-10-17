@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import Protected from './Protected';
 import Auth from './AuthComponent';
+import ProtectedRoute from './ProtectedRoute';
 
 export default class Home extends React.Component {
 	render() {
@@ -15,7 +16,7 @@ export default class Home extends React.Component {
 					<Link to='/auth' >Authorize </Link>
 				</div>
 				<Switch>
-					<Route path='/private' component={Protected} />
+					<ProtectedRoute path='/private' component={Protected} />
 					<Route path='/auth' component={Auth} />
 				</ Switch>
 			</div>

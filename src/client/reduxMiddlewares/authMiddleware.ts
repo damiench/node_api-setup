@@ -1,5 +1,7 @@
 import { ACTION_TYPES } from '../actions/types';
+import { AuthSuccess, AuthFail } from '../actions/auth';
 import axios from 'axios';
+import store from '../store';
 
 export default (store) =>
 	next =>
@@ -11,18 +13,20 @@ export default (store) =>
 				return axios.post('/authenticate/login', action.value)
 					.then((response) => {
 
-						console.log('res: ', response);
 						return axios.get('/authenticate/getUser');
 					})
 					.then((userRes) => {
-						console.log(userRes);
+						store.dispatch(AuthSuccess(userRes.data));
 
 						return result;
 					})
-					.catch(err => {console.log(err);});
+					.catch(err => {
+						store.dispatch(AuthFail());
+
+						return result;
+					});
 			}
 			else {
-
 				return result;
 			}
 		}
