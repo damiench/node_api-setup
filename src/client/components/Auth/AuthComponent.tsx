@@ -1,6 +1,6 @@
 import * as React from 'react';
-import store from '../store';
-import { LogIn } from '../actions/auth';
+import store from '../../store';
+import { LogIn } from '../../actions/auth';
 
 interface IState {
 	email: string,

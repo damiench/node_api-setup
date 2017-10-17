@@ -68,7 +68,7 @@ export const createUser = (data: UserData) => {
             ]);
         })
         .then((created) => {
-            console.pg_log('User created: ', created);
+            console.pg_log('User created');
 
             return {
                 isError: false,
@@ -87,8 +87,6 @@ export const createUser = (data: UserData) => {
 export const getUserById = (id: number) => {
     return pool.query('SELECT * FROM users WHERE id = $1', [id])
         .then((result) => {
-            console.pg_log(result);
-
             return result.rows[0];
         })
         .catch((err) => {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
-import Protected from './Protected';
-import Auth from './AuthComponent';
+import Protected from './Protected/Protected';
+import Auth from './Auth/AuthComponent';
 import ProtectedRoute from './ProtectedRoute';
 
 export default class Home extends React.Component {
