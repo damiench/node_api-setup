@@ -126,7 +126,7 @@ export const selectUserByEmail = (email: string) => {
 (function syncUserTable() {
     createUsersTable()
         .then((res) => {
-            console.pg_log('User\'s table synced');
+            console.pg_log(`User's table synced`);
         })
         .catch((err) => {
             console.pg_error(err);
